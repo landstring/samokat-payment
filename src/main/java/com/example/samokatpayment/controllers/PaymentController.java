@@ -21,11 +21,11 @@ public class PaymentController {
             summary = "Инициализация оплаты",
             description =
                     "Данный метод создаёт платёжную операцию и возвращает его id. " +
-                    "На вход принимаются данные о банковской карте, сумма платежа и ссылка для обратной связи"
+                            "На вход принимаются данные о банковской карте, сумма платежа и ссылка для обратной связи"
     )
     @PostMapping("/init")
     public ResponseEntity<?> initPayment(
-           @RequestBody PaymentInfoDto paymentInfoDto){
+            @RequestBody PaymentInfoDto paymentInfoDto) {
         return new ResponseEntity<>(paymentService.initPayment(paymentInfoDto), HttpStatus.OK);
     }
 
@@ -34,14 +34,13 @@ public class PaymentController {
             description =
                     "Данный метод фиксирует успешную оплату"
     )
-    @GetMapping ("/{payment_code}/success")
+    @GetMapping("/{payment_code}/success")
     public ResponseEntity<?> successPay(
-            @PathVariable("payment_code") String payment_code){
-        try{
+            @PathVariable("payment_code") String payment_code) {
+        try {
             paymentService.sendStatus(payment_code, "Success");
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -51,14 +50,13 @@ public class PaymentController {
             description =
                     "Данный метод фиксирует неуспешную оплату"
     )
-    @GetMapping ("/{payment_code}/failure")
+    @GetMapping("/{payment_code}/failure")
     public ResponseEntity<?> failurePay(
-            @PathVariable("payment_code") String payment_code){
-        try{
+            @PathVariable("payment_code") String payment_code) {
+        try {
             paymentService.sendStatus(payment_code, "Failure");
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalControllerAdvice {
     @ExceptionHandler(WebHookConnectionException.class)
-    public ResponseEntity<?> handleWebHookConnectionException(WebHookConnectionException ex){
+    public ResponseEntity<?> handleWebHookConnectionException(WebHookConnectionException ex) {
         return new ResponseEntity<>("Ошибка подключения по адресу вебхука", HttpStatus.BAD_GATEWAY);
     }
 
     @ExceptionHandler(BadWebHookException.class)
-    public ResponseEntity<?> handleBadWebHookException(BadWebHookException ex){
+    public ResponseEntity<?> handleBadWebHookException(BadWebHookException ex) {
         return new ResponseEntity<>("Некорректный адрес вебхука", HttpStatus.BAD_REQUEST);
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @OpenAPIDefinition
 public class SwaggerConfig {
     @Bean
-    public OpenAPI openAPI(){
+    public OpenAPI openAPI() {
         return new OpenAPI()
                 .servers(
                         List.of(

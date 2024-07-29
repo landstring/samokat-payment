@@ -1,15 +1,18 @@
 package com.example.samokatpayment.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-@AllArgsConstructor
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaymentInfo {
-    private String id;
-    private String card_number;
-    private String expiration_date;
-    private Integer cvc;
-    private Long totalPrice;
-    private String url;
+    String id;
+    String card_number;
+    String expiration_date;
+    Integer cvc;
+    Long totalPrice;
+    String url;
 }
