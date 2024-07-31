@@ -1,4 +1,4 @@
-package com.example.samokatpayment.entities;
+package com.example.samokatpayment.DTO;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,9 +8,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PaymentInfo {
+public class PaymentDto {
     String id;
-    Payment payment;
-    Long totalPrice;
-    String uri;
+    String cardNumber;
+    String expirationDate;
+    Integer cvc;
 }

@@ -4,3 +4,4 @@ spring:
       samokat-payment
 server:
   port: 8083
+payment-password: PaymentPassword

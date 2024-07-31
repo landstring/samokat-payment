@@ -7,8 +7,10 @@ import com.example.samokatpayment.entities.PaymentInfo;
 import com.example.samokatpayment.exceptions.BadWebHookException;
 import com.example.samokatpayment.exceptions.PaymentNotFoundException;
 import com.example.samokatpayment.exceptions.WebHookConnectionException;
+import com.example.samokatpayment.mappers.PaymentInfoMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -20,12 +22,21 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class PaymentService {
-    private static final String token = "PaymentPassword";
-    private final Map<String, PaymentInfo> paymentInfoHashMap;
 
-    public PaymentService() {
-        paymentInfoHashMap = new HashMap<>();
+public class PaymentService {
+
+    private final String paymentPassword;
+    private final HttpClient paymentHttpClient;
+    private final Map<String, PaymentInfo> paymentInfoHashMap;
+    private final PaymentInfoMapper paymentInfoMapper;
+
+    public PaymentService(@Value("${payment-password}") String paymentPassword,
+                          HttpClient paymentHttpClient,
+                          PaymentInfoMapper paymentInfoMapper) {
+        this.paymentPassword = paymentPassword;
+        this.paymentHttpClient = paymentHttpClient;
+        this.paymentInfoMapper = paymentInfoMapper;
+        this.paymentInfoHashMap = new HashMap<>();
     }
 
     public String initPayment(PaymentInfoDto paymentInfoDto) {
@@ -33,15 +44,9 @@ public class PaymentService {
         do {
             payment_code = UUID.randomUUID().toString();
         } while (paymentInfoHashMap.containsKey(payment_code));
-        if (urlCheck(paymentInfoDto.getUrl())) {
-            PaymentInfo paymentInfo = PaymentInfo.builder()
-                    .id(payment_code)
-                    .card_number(paymentInfoDto.getCard_number())
-                    .expiration_date(paymentInfoDto.getExpiration_date())
-                    .cvc(paymentInfoDto.getCvc())
-                    .totalPrice(paymentInfoDto.getTotalPrice())
-                    .url(paymentInfoDto.getUrl())
-                    .build();
+        if (uriCheck(paymentInfoDto.getUri())) {
+            PaymentInfo paymentInfo = paymentInfoMapper.fromDto(paymentInfoDto);
+            paymentInfo.setId(payment_code);
             paymentInfoHashMap.put(payment_code, paymentInfo);
             return payment_code;
         } else {
@@ -54,30 +59,32 @@ public class PaymentService {
             throw new PaymentNotFoundException();
         }
         PaymentStatusDto paymentStatusDto = PaymentStatusDto.builder()
-                .payment_code(payment_code)
+                .paymentCode(payment_code)
                 .status(status)
                 .build();
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(paymentStatusDto);
-        try (HttpClient client = HttpClient.newHttpClient()) {
+        try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(paymentInfoHashMap.get(payment_code).getUrl() + "/pay"))
-                    .header("Authorization", token)
+                    .uri(URI.create(paymentInfoHashMap.get(payment_code).getUri() + "/pay"))
+                    .header("Authorization", paymentPassword)
                     .header("Content-Type", "application/json")
                     .header("Accept", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            paymentHttpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception ex) {
             throw new WebHookConnectionException();
         }
     }
 
-    private boolean urlCheck(String urlString) {
+    private boolean uriCheck(String uriString) {
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(urlString + "/check"))
-                    .header("Authorization", token)
+                    .uri(URI.create(uriString + "/check"))
+                    .header("Authorization", paymentPassword)
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.statusCode() == 200;

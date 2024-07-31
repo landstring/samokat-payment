@@ -9,9 +9,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaymentInfoDto {
-    String card_number;
-    String expiration_date;
-    Integer cvc;
+    PaymentDto paymentDto;
     Long totalPrice;
-    String url;
+    String uri;
 }
