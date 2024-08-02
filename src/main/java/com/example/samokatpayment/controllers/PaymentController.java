@@ -24,9 +24,10 @@ public class PaymentController {
                             "На вход принимаются данные о банковской карте, сумма платежа и ссылка для обратной связи"
     )
     @PostMapping("/init")
-    public ResponseEntity<?> initPayment(
+    @ResponseStatus(HttpStatus.OK)
+    public String initPayment(
             @RequestBody PaymentInfoDto paymentInfoDto) {
-        return new ResponseEntity<>(paymentService.initPayment(paymentInfoDto), HttpStatus.OK);
+        return paymentService.initPayment(paymentInfoDto);
     }
 
     @Operation(
@@ -35,10 +36,10 @@ public class PaymentController {
                     "Данный метод фиксирует успешную оплату"
     )
     @GetMapping("/{payment_code}/success")
-    public ResponseEntity<?> successPay(
+    @ResponseStatus(HttpStatus.OK)
+    public void successPay(
             @PathVariable("payment_code") String payment_code) {
         paymentService.successPayment(payment_code);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(
@@ -47,9 +48,9 @@ public class PaymentController {
                     "Данный метод фиксирует неуспешную оплату"
     )
     @GetMapping("/{payment_code}/failure")
-    public ResponseEntity<?> failurePay(
+    @ResponseStatus(HttpStatus.OK)
+    public void failurePay(
             @PathVariable("payment_code") String payment_code) {
         paymentService.failurePayment(payment_code);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

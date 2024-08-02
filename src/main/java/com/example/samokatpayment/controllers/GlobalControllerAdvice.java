@@ -7,21 +7,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalControllerAdvice {
-    @ExceptionHandler({WebHookConnectionException.class,})
-    public ResponseEntity<?> handleWebHookConnectionException(WebHookConnectionException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_GATEWAY);
+    @ExceptionHandler(WebHookConnectionException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public String handleWebHookConnectionException(WebHookConnectionException exception) {
+        return exception.getMessage();
     }
 
     @ExceptionHandler(BadWebHookException.class)
-    public ResponseEntity<?> handleBadWebHookException(BadWebHookException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleBadWebHookException(BadWebHookException exception) {
+        return exception.getMessage();
     }
 
     @ExceptionHandler(PaymentNotFoundException.class)
-    public ResponseEntity<?> handlePaymentNotFoundException(PaymentNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handlePaymentNotFoundException(PaymentNotFoundException exception) {
+        return exception.getMessage();
     }
+
 }
