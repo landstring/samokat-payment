@@ -2,7 +2,6 @@ package com.example.samokatpayment.controllers;
 
 import com.example.samokatpayment.DTO.PaymentInfoDto;
 import com.example.samokatpayment.services.PaymentService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -37,8 +36,8 @@ public class PaymentController {
     )
     @GetMapping("/{payment_code}/success")
     public ResponseEntity<?> successPay(
-            @PathVariable("payment_code") String payment_code) throws JsonProcessingException {
-        paymentService.sendStatus(payment_code, "Success");
+            @PathVariable("payment_code") String payment_code) {
+        paymentService.successPayment(payment_code);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -49,8 +48,8 @@ public class PaymentController {
     )
     @GetMapping("/{payment_code}/failure")
     public ResponseEntity<?> failurePay(
-            @PathVariable("payment_code") String payment_code) throws JsonProcessingException {
-        paymentService.sendStatus(payment_code, "Failure");
+            @PathVariable("payment_code") String payment_code) {
+        paymentService.failurePayment(payment_code);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

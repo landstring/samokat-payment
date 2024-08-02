@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class PaymentInfoMapper {
     private final PaymentMapper paymentMapper;
-    public PaymentInfo fromDto(PaymentInfoDto paymentInfoDto){
+
+    public PaymentInfo fromDto(PaymentInfoDto paymentInfoDto) {
         return PaymentInfo.builder()
                 .payment(paymentMapper.fromDto(paymentInfoDto.getPaymentDto()))
                 .totalPrice(paymentInfoDto.getTotalPrice())
