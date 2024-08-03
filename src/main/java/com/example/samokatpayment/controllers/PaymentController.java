@@ -5,6 +5,7 @@ import com.example.samokatpayment.services.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Tag(name = "Методы для работы с оплатой заказа")
 @RequestMapping("/api")
+@Slf4j
 public class PaymentController {
     private final PaymentService paymentService;
 
@@ -27,6 +29,7 @@ public class PaymentController {
     @ResponseStatus(HttpStatus.OK)
     public String initPayment(
             @RequestBody PaymentInfoDto paymentInfoDto) {
+        log.info("Запрос на инициализацию платежа: {}", paymentInfoDto);
         return paymentService.initPayment(paymentInfoDto);
     }
 
@@ -38,8 +41,9 @@ public class PaymentController {
     @GetMapping("/{payment_code}/success")
     @ResponseStatus(HttpStatus.OK)
     public void successPay(
-            @PathVariable("payment_code") String payment_code) {
-        paymentService.successPayment(payment_code);
+            @PathVariable("payment_code") String paymentCode) {
+        log.info("Фиксация успешной оплаты для заказа с payment_code: {}", paymentCode);
+        paymentService.successPayment(paymentCode);
     }
 
     @Operation(
@@ -50,7 +54,8 @@ public class PaymentController {
     @GetMapping("/{payment_code}/failure")
     @ResponseStatus(HttpStatus.OK)
     public void failurePay(
-            @PathVariable("payment_code") String payment_code) {
-        paymentService.failurePayment(payment_code);
+            @PathVariable("payment_code") String paymentCode) {
+        log.info("Фиксация неуспешной оплаты для заказа с payment_code: {}", paymentCode);
+        paymentService.failurePayment(paymentCode);
     }
 }

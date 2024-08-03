@@ -1,0 +1,21 @@
+2024-08-03 18:11:50,451 INFO [restartedMain] org.springframework.boot.StartupInfoLogger: Starting SamokatPaymentApplication using Java 22 with PID 15604 (C:\Users\arikb\Desktop\samokat-payment\target\classes started by arikb in C:\Users\arikb\Desktop\samokat-payment)
+2024-08-03 18:11:50,452 DEBUG [restartedMain] org.springframework.boot.StartupInfoLogger: Running with Spring Boot v3.3.2, Spring v6.1.11
+2024-08-03 18:11:50,453 INFO [restartedMain] org.springframework.boot.SpringApplication: No active profile set, falling back to 1 default profile: "default"
+2024-08-03 18:11:50,501 INFO [restartedMain] org.springframework.boot.logging.DeferredLog: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-08-03 18:11:50,502 INFO [restartedMain] org.springframework.boot.logging.DeferredLog: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-08-03 18:11:51,709 INFO [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer: Tomcat initialized with port 8083 (http)
+2024-08-03 18:11:51,721 INFO [restartedMain] org.apache.juli.logging.DirectJDKLog: Initializing ProtocolHandler ["http-nio-8083"]
+2024-08-03 18:11:51,723 INFO [restartedMain] org.apache.juli.logging.DirectJDKLog: Starting service [Tomcat]
+2024-08-03 18:11:51,724 INFO [restartedMain] org.apache.juli.logging.DirectJDKLog: Starting Servlet engine: [Apache Tomcat/10.1.26]
+2024-08-03 18:11:51,769 INFO [restartedMain] org.apache.juli.logging.DirectJDKLog: Initializing Spring embedded WebApplicationContext
+2024-08-03 18:11:51,769 INFO [restartedMain] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext: Root WebApplicationContext: initialization completed in 1267 ms
+2024-08-03 18:11:52,490 WARN [restartedMain] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer: Unable to start LiveReload server
+2024-08-03 18:11:52,508 INFO [restartedMain] org.apache.juli.logging.DirectJDKLog: Starting ProtocolHandler ["http-nio-8083"]
+2024-08-03 18:11:52,519 INFO [restartedMain] org.springframework.boot.web.embedded.tomcat.TomcatWebServer: Tomcat started on port 8083 (http) with context path '/'
+2024-08-03 18:11:52,529 INFO [restartedMain] org.springframework.boot.StartupInfoLogger: Started SamokatPaymentApplication in 2.516 seconds (process running for 3.394)
+2024-08-03 18:12:40,979 INFO [http-nio-8083-exec-5] org.apache.juli.logging.DirectJDKLog: Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-08-03 18:12:40,980 INFO [http-nio-8083-exec-5] org.springframework.web.servlet.FrameworkServlet: Initializing Servlet 'dispatcherServlet'
+2024-08-03 18:12:40,981 INFO [http-nio-8083-exec-5] org.springframework.web.servlet.FrameworkServlet: Completed initialization in 1 ms
+2024-08-03 18:12:41,471 INFO [http-nio-8083-exec-7] org.springdoc.api.AbstractOpenApiResource: Init duration for springdoc-openapi is: 214 ms
+2024-08-03 18:19:10,861 INFO [http-nio-8083-exec-4] com.example.samokatpayment.controllers.PaymentController: Запрос на инициализацию платежа: PaymentInfoDto(paymentDto=PaymentDto(id=5e426560-4c0a-4f81-a823-6264c96065d7, cardNumber=1234 1234 1234 1234, expirationDate=05/32, cvc=123), totalPrice=100000, uri=http://localhost:8082/api)
+2024-08-03 18:19:27,915 INFO [http-nio-8083-exec-5] com.example.samokatpayment.controllers.PaymentController: Фиксация успешной оплаты для заказа с payment_code: 73300d0f-8c7e-4e4e-b070-e3ea3e0cb580
